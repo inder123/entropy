@@ -15,16 +15,21 @@
  */
 package com.singhinderjeet.entropy;
 
+import java.io.IOException;
 import java.util.Random;
 
+/**
+ * Program to calculate change in entropy with random switching of characters of a strings
+ *
+ * @author Inderjeet Singh
+ */
 public class Main {
-    public static void main(String[] args) {
-        char[][] strings = new char[1000 * 10][];
+    public static void main(String[] args) throws IOException {
+        // char[][] strings = createRandomSentences(10 * 1000);
+        char[][] strings = Shakespeare.loadShakespeareanSentences(10 * 1000);
         double[] entropiesOriginal = new double[strings.length];
         double[] entropiesCurrent = new double[strings.length];
         for (int i = 0; i < strings.length; ++i) { // initialize
-            // strings[i] = "The quick brown fox jumped over the little lazy dog".toCharArray();
-            strings[i] = getRandomString(40);
             entropiesOriginal[i] = REntropy.getShannonEntropy(strings[i]);
         }
         for (int iteration = 0; iteration < 1000; ++iteration) {
@@ -41,6 +46,16 @@ public class Main {
             }
         }
         System.out.println(reducedEntropyCount + " strings reduced in entropy");
+    }
+
+    @SuppressWarnings("unused")
+    private static char[][] createRandomSentences(int count) {
+        char[][] strings = new char[count][];
+        for (int i = 0; i < strings.length; ++i) { // initialize
+            // strings[i] = "The quick brown fox jumped over the little lazy dog".toCharArray();
+            strings[i] = getRandomString(40);
+        }
+        return strings;
     }
 
     private static final char[] charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz".toCharArray();

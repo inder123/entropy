@@ -2,6 +2,7 @@ target/
 .classpath
 .project
 .settings
+shakespeare_6.0.json
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
