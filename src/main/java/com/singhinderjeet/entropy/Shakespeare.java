@@ -52,10 +52,14 @@ public class Shakespeare {
             String line;
             while ((line = br.readLine()) != null) {
                 ShakespeareTextData data = gson.fromJson(line, ShakespeareTextData.class);
-                if (data != null && data.textEntry != null && !data.textEntry.trim().isEmpty()) {
-                    sentences[i] = data.textEntry.toCharArray();
-                    ++i;
-                    if (i >= count) break;
+                if (data != null && data.textEntry != null) {
+                    String item = data.textEntry.trim();
+                    if (item.length() > 25) {
+                        // System.out.println(item);
+                        sentences[i] = item.toCharArray();
+                        ++i;
+                        if (i >= count) break;
+                    }
                 }
             }
         }

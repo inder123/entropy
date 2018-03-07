@@ -25,8 +25,14 @@ import java.util.Random;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-        // char[][] strings = createRandomSentences(10 * 1000);
-        char[][] strings = Shakespeare.loadShakespeareanSentences(10 * 1000);
+        // char[][] original = createRandomSentences(10 * 1000);
+        char[][] original = Shakespeare.loadShakespeareanSentences(10 * 1000);
+        char[][] strings = new char[original.length][];
+        for (int i = 0; i < original.length; ++i) {
+            strings[i] = new char[original[i].length];
+            System.arraycopy(original[i], 0, strings[i], 0, original[i].length);
+        }
+        // for (char[] s : strings) System.out.println(new String(s));
         double[] entropiesOriginal = new double[strings.length];
         double[] entropiesCurrent = new double[strings.length];
         for (int i = 0; i < strings.length; ++i) { // initialize
@@ -39,10 +45,12 @@ public class Main {
             }
         }
         int reducedEntropyCount = 0;
-        for (int i = 0; i < strings.length; ++i) {
+        for (int i = 0; i < entropiesCurrent.length; ++i) {
             if (entropiesCurrent[i] < entropiesOriginal[i]) {
-                System.out.println("Reduced entropy for: " + new String(strings[i]));
+                System.out.printf("Entropy reduced by transforming %dth String: %s => %s\n", i, new String(original[i]), new String(strings[i]));
                 ++reducedEntropyCount;
+//            } else if (entropiesCurrent[i] > entropiesOriginal[i]) {
+//            	System.out.printf("Entropy increased by transforming %dth String: %s => %s\n", i, new String(original[i]), new String(strings[i]));
             }
         }
         System.out.println(reducedEntropyCount + " strings reduced in entropy");
